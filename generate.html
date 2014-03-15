@@ -1,0 +1,28 @@
+<link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons.css">
+<style>
+select {
+ font-size: 10px;
+}
+</style>
+<div>
+Add&nbsp;
+<input type="text" id="count" value="<?=num?>" maxlength="2" size="2">&nbsp;
+<select id="units">
+  <option id="words">words</option>
+  <option id="sentences">sentences</option>
+  <option id="paragraphs">paragraphs</option>
+</select> to the document.
+<br><br>
+<input type="button" class="action" value="Insert" onclick="submit();">
+<input type="button" value="Close" onclick="google.script.host.close();">
+<script>
+document.getElementById('units').selectedIndex = ['words', 'sentences', 'paragraphs'].indexOf('<?=units?>');
+
+function submit() {
+  var count = document.getElementById('count').value;
+  var unitsMenu = document.getElementById('units');
+  var units = unitsMenu.options[unitsMenu.selectedIndex].text
+  google.script.run.insertText({count: count, units: units});
+}
+</script>
+</div>
