@@ -6,6 +6,8 @@ Lorem Ipsum
 * View screenshots: http://imgur.com/a/ZBeSj
 * Get the code: `git clone https://github.com/guoguo12/lorem-ipsum.git`
 
+An application to publish this add-on to the Chrome Web Store was submitted on 15 March 2014.
+
 Credits
 -------
 
