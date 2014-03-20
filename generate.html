@@ -1,28 +1,56 @@
 <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons.css">
 <style>
 select {
- font-size: 10px;
+  font-size: 10px; /* prevents text from being cut off */
 }
 </style>
-<div>
+
+<span id="loading" class="gray">Loading...</span>
+<div id="main" style="display:none;">
 Add&nbsp;
-<input type="text" id="count" value="<?=num?>" maxlength="2" size="2">&nbsp;
+<input type="text" id="count" value="" maxlength="2" size="2">&nbsp;
 <select id="units">
   <option id="words">words</option>
   <option id="sentences">sentences</option>
   <option id="paragraphs">paragraphs</option>
 </select> to the document.
 <br><br>
+<div id="status">&nbsp;</div> <!-- placeholder to maintain spacing -->
 <input type="button" class="action" value="Insert" onclick="submit();">
 <input type="button" value="Close" onclick="google.script.host.close();">
+</div>
+
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script>
-document.getElementById('units').selectedIndex = ['words', 'sentences', 'paragraphs'].indexOf('<?=units?>');
+$(function() {
+  google.script.run.withSuccessHandler(start).getLastUsed();
+})
+
+function start(lastUsed) {
+  $('#count').val(lastUsed.count);
+  $('#units').val(lastUsed.units);
+  $('#loading').hide();
+  $('#main').fadeIn();
+}
 
 function submit() {
+  var status = $('#status'); // status bar element
   var count = document.getElementById('count').value;
   var unitsMenu = document.getElementById('units');
   var units = unitsMenu.options[unitsMenu.selectedIndex].text
-  google.script.run.insertText({count: count, units: units});
+  if (!isNaN(count) && +count >= 1 && +count <= 99) {
+    var clearStatus = function() {
+      status.html('&nbsp;');
+    }
+    google.script.run.withSuccessHandler(clearStatus).insertText({count: count, units: units});
+    status.removeClass().addClass('gray').html('Working...');
+  } else {
+    var text = 'Please enter a valid number between 1 and 99.';
+    if (status.hasClass('error')) {
+      status.html(text).fadeOut(100).fadeIn(100); // flash text
+    } else {
+      status.removeClass().addClass('error').html(text);
+    }
+  }
 }
 </script>
-</div>

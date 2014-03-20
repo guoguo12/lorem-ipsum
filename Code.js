@@ -16,21 +16,22 @@ function onInstall() {
 }
 
 function showGenerateDialog() {
-  var props = PropertiesService.getDocumentProperties();
-  var num = props.getProperty('last-used-num');
-  var units = props.getProperty('last-used-units');
-  var template = HtmlService.createTemplateFromFile('generate');
-  template.num = num ? num : '2';
-  template.units = units ? units : 'words';
-  var dialog = template.evaluate();
-  dialog.setHeight(80);
+  var dialog = HtmlService.createHtmlOutputFromFile('generate');
+  dialog.setHeight(100);
   dialog.setWidth(290);
   DocumentApp.getUi().showModelessDialog(dialog, 'Insert placeholder text');
 }
 
+function getLastUsed() {
+  var props = PropertiesService.getDocumentProperties();
+  var count = props.getProperty('last-used-count');
+  var units = props.getProperty('last-used-units');
+  return {count: count ? count : '2', units: units ? units : 'words'};
+}
+
 function insertText(args) {
   var props = PropertiesService.getDocumentProperties();
-  props.setProperty('last-used-num', args.count);
+  props.setProperty('last-used-count', args.count);
   props.setProperty('last-used-units', args.units);
   var gen = generator(args);
   DocumentApp.getActiveDocument().getCursor().insertText(gen);
