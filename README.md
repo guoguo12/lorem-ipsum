@@ -8,6 +8,8 @@ Lorem Ipsum
 
 An application to publish this add-on to the Chrome Web Store was submitted on 15 March 2014.
 
+Need help? Check out the [help page](http://allenguo.us/projects/lorem-ipsum/help.html).
+
 Credits
 -------
 
