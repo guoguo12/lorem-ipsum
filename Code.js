@@ -17,7 +17,7 @@ function onInstall() {
 
 function showGenerateDialog() {
   var dialog = HtmlService.createHtmlOutputFromFile('generate');
-  dialog.setHeight(100);
+  dialog.setHeight(95);
   dialog.setWidth(290);
   DocumentApp.getUi().showModelessDialog(dialog, 'Insert placeholder text');
 }
