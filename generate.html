@@ -18,7 +18,7 @@ Add&nbsp;
 </select> to the document.
 <br><br>
 <div id="status">&nbsp;</div> <!-- placeholder to maintain spacing -->
-<input type="button" class="action" value="Insert" onclick="submit();">
+<input id="submit" type="button" class="action" value="Insert" onclick="submit();">
 <input type="button" value="Close" onclick="google.script.host.close();">
 </div>
 
@@ -43,9 +43,11 @@ function submit() {
   if (!isNaN(count) && +count >= 1 && +count <= 99) {
     var clearStatus = function() {
       status.html('&nbsp;');
+      $('#submit').removeAttr('disabled');
     }
     google.script.run.withSuccessHandler(clearStatus).insertText({count: count, units: units});
     status.removeClass().addClass('gray').html('Working...');
+    $('#submit').attr('disabled', true);
   } else {
     var text = 'Please enter a valid number between 1 and 99.';
     if (status.hasClass('error')) {
